@@ -29,5 +29,6 @@ jobs:
       with:
         contect: .
         file: ./Dockerfile
+        tags: bnh4924/springboot
         push: true
         labels: latest
