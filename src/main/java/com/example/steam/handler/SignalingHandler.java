@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-
 @Component
 public class SignalingHandler extends TextWebSocketHandler {
     private static final Set<WebSocketSession> sessions = Collections.synchronizedSet(new HashSet<>());
