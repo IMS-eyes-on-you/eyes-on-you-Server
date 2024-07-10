@@ -1,21 +1,21 @@
-package com.example.steam.handler;
+package com.example.steam.steam.handler;
 
-import com.example.steam.dto.KurentoRoomDto;
-import com.example.steam.service.KurentoManager;
-import com.example.steam.service.KurentoRegistryService;
+import com.example.steam.steam.dto.KurentoRoomDto;
+import com.example.steam.steam.service.KurentoManager;
+import com.example.steam.steam.service.KurentoRegistryService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.IceCandidate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -99,13 +99,20 @@ public class KurentoHandler extends TextWebSocketHandler {
 
         KurentoRoomDto room = roomManger.getRoom(roomName);
 
-        final KurentoUserSession user = room.join(name, session);
+        final KurentoUserSession user = room.join(name, session, roomName);
 
         registry.register(user);
     }
 
     private void leaveRoom(KurentoUserSession user) throws IOException {
+
+        if(Objects.isNull(user)) return;
+
         final KurentoRoomDto room = roomManger.getRoom(user.getRoomName());
+
+        if(!room.getParticipants().containsKey(user)) return;
+
+
         room.leave(user);
         room.setUserCount(room.getUserCount() - 1);
     }

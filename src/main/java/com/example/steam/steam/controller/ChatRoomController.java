@@ -1,14 +1,13 @@
-package com.example.steam.controller;
+package com.example.steam.steam.controller;
 
-import com.example.steam.dto.CreateChatRoomDto;
-import com.example.steam.dto.KurentoRoomDto;
-import com.example.steam.service.ChatServiceMain;
+import com.example.steam.steam.dto.CreateChatRoomDto;
+import com.example.steam.steam.dto.KurentoRoomDto;
+import com.example.steam.steam.service.ChatServiceMain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 @Slf4j

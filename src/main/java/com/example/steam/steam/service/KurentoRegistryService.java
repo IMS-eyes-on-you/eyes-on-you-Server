@@ -1,6 +1,6 @@
-package com.example.steam.service;
+package com.example.steam.steam.service;
 
-import com.example.steam.handler.KurentoUserSession;
+import com.example.steam.steam.handler.KurentoUserSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;

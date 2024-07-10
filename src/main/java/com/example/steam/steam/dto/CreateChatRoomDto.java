@@ -1,6 +1,5 @@
-package com.example.steam.dto;
+package com.example.steam.steam.dto;
 
-import com.example.steam.enums.ChatType;
 import lombok.Getter;
 import lombok.Setter;
 

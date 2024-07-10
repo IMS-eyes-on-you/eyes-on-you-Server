@@ -1,6 +1,5 @@
-package com.example.steam.handler;
+package com.example.steam.steam.handler;
 
-import com.example.steam.dto.KurentoRoomDto;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

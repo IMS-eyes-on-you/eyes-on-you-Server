@@ -1,12 +1,11 @@
-package com.example.steam.dto;
+package com.example.steam.steam.dto;
 
-import com.example.steam.enums.ChatType;
-import com.example.steam.handler.KurentoUserSession;
+import com.example.steam.steam.enums.ChatType;
+import com.example.steam.steam.handler.KurentoUserSession;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.KurentoClient;
@@ -48,8 +47,8 @@ public class KurentoRoomDto{
         log.info("pipline : {} ",this.pipeline);
     }
 
-    public KurentoUserSession join(String name, WebSocketSession session) throws IOException {
-        final KurentoUserSession participant = new KurentoUserSession(name, this.roomId, session, this.pipeline);
+    public KurentoUserSession join(String name, WebSocketSession session, String roomName) throws IOException {
+        final KurentoUserSession participant = new KurentoUserSession(name, roomName, session, this.pipeline);
 
         joinRoom(participant);
 
@@ -76,6 +75,8 @@ public class KurentoRoomDto{
 
         // 유저 정보를 담은 map - participants - 초기화
         participants.clear();
+
+        pipeline.release();
     }
 
     public Collection<String> joinRoom(KurentoUserSession newParticipant){
@@ -166,6 +167,8 @@ public class KurentoRoomDto{
         // user 에게 existingParticipantsMsg 전달
         user.sendMessage(existingParticipantsMsg);
     }
+
+
 
 
 }

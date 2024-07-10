@@ -1,4 +1,4 @@
-package com.example.steam.enums;
+package com.example.steam.steam.enums;
 
 public enum ChatType {
     Answer,RTC,

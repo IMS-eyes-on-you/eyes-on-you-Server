@@ -1,6 +1,6 @@
-package com.example.steam.service;
+package com.example.steam.steam.service;
 
-import com.example.steam.dto.KurentoRoomDto;
+import com.example.steam.steam.dto.KurentoRoomDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

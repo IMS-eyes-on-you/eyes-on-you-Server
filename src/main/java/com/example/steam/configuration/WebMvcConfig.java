@@ -18,8 +18,10 @@ class WebMvcConfig implements WebMvcConfigurer {
                         .allowedOriginPatterns("*") // 안에 해당 주소를 넣어도 됨
                         .allowedHeaders("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS" , "PATCH")
-                        .exposedHeaders("Authorization", "RefreshToken");
-                //.allowCredentials(true);
+                        .allowedHeaders("Authorization", "Content-Type")
+                        .exposedHeaders("Custom-Header")
+                        .allowCredentials(true)
+                        .maxAge(3600);
             }
         };
     }

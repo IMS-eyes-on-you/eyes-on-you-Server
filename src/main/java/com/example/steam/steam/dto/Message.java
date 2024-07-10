@@ -1,4 +1,4 @@
-package com.example.steam.dto;
+package com.example.steam.steam.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

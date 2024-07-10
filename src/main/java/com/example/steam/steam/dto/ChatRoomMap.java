@@ -1,4 +1,4 @@
-package com.example.steam.dto;
+package com.example.steam.steam.dto;
 
 import lombok.Getter;
 import lombok.Setter;
