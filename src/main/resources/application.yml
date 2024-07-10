@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/eyedb
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+logging:
+  level:
+    org.springframework.amqp: DEBUG
+    root: info
+
+
+# RabbitMQ queue, exchange, routing-key ??
+rabbitmq:
+  queue.name: sample.queue
+  exchange.name: sample.exchange
+  routing.key: sample.key
+
+
