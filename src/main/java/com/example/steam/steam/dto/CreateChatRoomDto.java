@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateChatRoomDto {
+    private String roomName;
     private String name;
     private String maxUserCnt;
     private String chatType;

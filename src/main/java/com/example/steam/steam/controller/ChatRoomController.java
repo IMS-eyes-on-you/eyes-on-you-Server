@@ -16,11 +16,11 @@ public class ChatRoomController {
 
     @PostMapping("/chat/createroom")
     public String createRoom(@RequestBody CreateChatRoomDto createChatRoomDto){
-        KurentoRoomDto room = chatServiceMain.createChatRoom(createChatRoomDto.getName(),
-                Integer.parseInt(createChatRoomDto.getMaxUserCnt()), createChatRoomDto.getChatType());
-
+        KurentoRoomDto room = chatServiceMain.createChatRoom(createChatRoomDto.getRoomName(),
+                Integer.parseInt(createChatRoomDto.getMaxUserCnt()), createChatRoomDto.getChatType(), createChatRoomDto.getName());
 
         log.info("CREATE Chat Room[{}]", room);
+        log.info("Host name is [{}]", room.getUserId());
         return "good";
     }
 }

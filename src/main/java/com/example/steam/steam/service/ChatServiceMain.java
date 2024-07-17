@@ -12,10 +12,10 @@ public class ChatServiceMain {
     private final KurentoManager kurentoManager;
     private final RtcChatService rtcChatService;
 
-    public KurentoRoomDto createChatRoom(String roomName, int maxUserCnt, String chatType){
+    public KurentoRoomDto createChatRoom(String roomName, int maxUserCnt, String chatType, String name){
         KurentoRoomDto room;
 
-        room = rtcChatService.createChatRoom(roomName, maxUserCnt);
+        room = rtcChatService.createChatRoom(roomName, maxUserCnt, name);
 
         return room;
     }

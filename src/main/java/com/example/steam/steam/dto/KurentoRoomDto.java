@@ -32,9 +32,11 @@ public class KurentoRoomDto{
     private int userCount = 0;
     private int maxUserCnt;
     private ChatType chatType;
+    private boolean isHost = false;
 
     private ConcurrentMap<String, KurentoUserSession> participants;
-    public void setRoomInfo(String roomId, String roomName, ChatType chatType, KurentoClient kurento){
+    public void setRoomInfo(String roomId, String roomName, ChatType chatType, KurentoClient kurento, String userId){
+        this.userId = userId;
         this.kurento = kurento;
         this.roomId = roomId;
         this.chatType = chatType;
@@ -61,7 +63,7 @@ public class KurentoRoomDto{
     }
 
     public void leave(KurentoUserSession user) throws IOException {
-        log.debug("PARTICIPANT {}: Leaving room {}", user.getName(), this.roomId);
+        log.info("PARTICIPANT {}: Leaving room {}", user.getName(), this.roomId);
         this.removeParticipant(user.getName());
 
         user.close();
@@ -166,6 +168,21 @@ public class KurentoRoomDto{
 
         // user 에게 existingParticipantsMsg 전달
         user.sendMessage(existingParticipantsMsg);
+    }
+
+    public void sendHostIsOut(){
+        final JsonObject msg = new JsonObject();
+        msg.addProperty("id", "hostExit");
+        msg.addProperty("name", "name");
+        for (final KurentoUserSession participant : participants.values()) {
+            try {
+                // 다른 유저들에게 현재 유저가 나갔음을 알리는 jsonMsg 를 전달
+                participant.sendMessage(msg);
+
+            } catch (final IOException e) {
+                log.info("host exit error");
+            }
+        }
     }
 
 
