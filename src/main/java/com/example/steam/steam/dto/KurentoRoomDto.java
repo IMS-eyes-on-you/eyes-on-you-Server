@@ -32,7 +32,7 @@ public class KurentoRoomDto{
     private int userCount = 0;
     private int maxUserCnt;
     private ChatType chatType;
-    private boolean isHost = false;
+    private String hostName = "";
 
     private ConcurrentMap<String, KurentoUserSession> participants;
     public void setRoomInfo(String roomId, String roomName, ChatType chatType, KurentoClient kurento, String userId){
@@ -42,6 +42,10 @@ public class KurentoRoomDto{
         this.chatType = chatType;
         this.roomName = roomName;
         this.participants = new ConcurrentHashMap<>();
+    }
+
+    public void setHostName(String hostName){
+        this.hostName = hostName;
     }
 
     public void createPipeline(){
@@ -157,7 +161,7 @@ public class KurentoRoomDto{
             if(!participant.getName().equals(user.getName())){
                 JsonObject exisingUser  = new JsonObject();
                 exisingUser.addProperty("name", participant.getName());
-
+                exisingUser.addProperty("hostName", this.hostName);
                 participantsArray.add(exisingUser);
             }
         }

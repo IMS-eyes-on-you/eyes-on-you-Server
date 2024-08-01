@@ -102,6 +102,10 @@ public class KurentoHandler extends TextWebSocketHandler {
 
         final KurentoUserSession user = room.join(name, session, roomName);
 
+        if(isHost(room.getRoomName(), user.getName())){
+            room.setHostName(user.getName());
+        }
+
         registry.register(user);
     }
 
