@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://192.168.56.61:3307/eyedb
+    url: jdbc:mariadb://192.168.0.35:3307/eyedb
     username: root
     password: 8z63s58rq04
     driver-class-name: org.mariadb.jdbc.Driver
@@ -16,7 +16,7 @@ spring:
       hibernate:
         format_sql: true
   rabbitmq:
-    host: 192.168.56.61
+    host: 192.168.0.35
     port: 5672
     username: guest
     password: guest
