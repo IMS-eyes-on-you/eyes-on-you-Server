@@ -2,6 +2,7 @@ package com.example.steam.steam.dto;
 
 import com.example.steam.steam.enums.ChatType;
 import com.example.steam.steam.handler.KurentoUserSession;
+import com.example.steam.steam.service.ChatRoomService;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
@@ -33,8 +34,12 @@ public class KurentoRoomDto{
     private int maxUserCnt;
     private ChatType chatType;
     private String hostName = "";
-
+    private ChatRoomService chatRoomService;
+    public KurentoRoomDto(ChatRoomService chatRoomService) {
+        this.chatRoomService = chatRoomService;
+    }
     private ConcurrentMap<String, KurentoUserSession> participants;
+
     public void setRoomInfo(String roomId, String roomName, ChatType chatType, KurentoClient kurento, String userId){
         this.userId = userId;
         this.kurento = kurento;
@@ -182,7 +187,8 @@ public class KurentoRoomDto{
             try {
                 // 다른 유저들에게 현재 유저가 나갔음을 알리는 jsonMsg 를 전달
                 participant.sendMessage(msg);
-
+                // 강의 종료
+                chatRoomService.notifyExitClass();
             } catch (final IOException e) {
                 log.info("host exit error");
             }

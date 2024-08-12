@@ -3,8 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://192.168.0.15:3306/eyedb
-    username: nh
+    url: jdbc:mysql://localhost:3306/eyedb
+    username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
