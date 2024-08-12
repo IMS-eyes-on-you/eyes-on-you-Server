@@ -54,6 +54,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/classroom")
                     .queryParam("accessToken", token.getAccessToken())
                     .queryParam("userId", email.split("@")[0])
+                    .queryParam("oauth", true)
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
@@ -78,6 +79,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/classroom")
                     .queryParam("accessToken", token.getAccessToken())
                     .queryParam("userId", oathEmail.split("@")[0])
+                    .queryParam("oauth", true)
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
