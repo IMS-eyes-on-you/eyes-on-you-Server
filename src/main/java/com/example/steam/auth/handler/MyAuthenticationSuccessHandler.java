@@ -1,12 +1,15 @@
 package com.example.steam.auth.handler;
 
+import com.example.steam.auth.Service.AuthService;
 import com.example.steam.auth.dto.GeneratedToken;
+import com.example.steam.auth.dto.SignUpDto;
 import com.example.steam.auth.filter.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,8 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
+    private final AuthService authService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -46,8 +51,9 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             log.info("jwtToken = {}", token.getAccessToken());
 
             // accessToken을 쿼리스트링에 담는 url을 만들어준다.
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/loginSuccess")
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/classroom")
                     .queryParam("accessToken", token.getAccessToken())
+                    .queryParam("userId", email.split("@")[0])
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
@@ -57,15 +63,25 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
 
 
         } else {
-
-            // 회원이 존재하지 않을경우, 서비스 제공자와 email을 쿼리스트링으로 전달하는 url을 만들어준다.
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/rigister")
-                    .queryParam("email", (String) oAuth2User.getAttribute("email"))
-                    .queryParam("provider", provider)
+            String oathEmail = oAuth2User.getAttribute("email");
+            SignUpDto signUpDto = SignUpDto.builder()
+                    .id(oathEmail.split("@")[0])
+                    .email(oAuth2User.getAttribute("email"))
+                    .password(passwordEncoder.encode("1234"))
+                    .name(oathEmail.split("@")[0])
+                    .role("user")
+                    .build();
+            authService.saveInfo(signUpDto);
+            GeneratedToken token = jwtUtil.generateToken(email, role);
+            log.info("jwtToken = {}", token.getAccessToken());
+            // 회원이 존재하지 않을경우, 강제 회원가입을 시킨다
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/classroom")
+                    .queryParam("accessToken", token.getAccessToken())
+                    .queryParam("userId", oathEmail.split("@")[0])
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
-            // 회원가입 페이지로 리다이렉트 시킨다.
+
             getRedirectStrategy().sendRedirect(request, response, targetUrl);
         }
     }

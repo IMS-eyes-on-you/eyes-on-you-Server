@@ -3,6 +3,7 @@ package com.example.steam.steam.service;
 import com.example.steam.steam.dto.ChatRoomMap;
 import com.example.steam.steam.dto.KurentoRoomDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class ChatServiceMain {
     }
 
     public Set<String> findAllRooms() {
-        Set<String> rooms = ChatRoomMap.getInstance().getChatRooms().keySet();
 
-        return rooms;
+        log.info("{}",ChatRoomMap.getInstance().getChatRooms().keySet());
+        return ChatRoomMap.getInstance().getChatRooms().keySet();
     }
 }

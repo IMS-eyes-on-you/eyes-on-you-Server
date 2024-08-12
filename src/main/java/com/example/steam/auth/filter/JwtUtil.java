@@ -74,10 +74,9 @@ public class JwtUtil {
 
     public boolean verifyToken(String token) {
         try {
-            String[] real = token.split(" ");
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey) // 비밀키를 설정하여 파싱한다.
-                    .parseClaimsJws(real[1]);  // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
+                    .parseClaimsJws(token);  // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
             // 토큰의 만료 시간과 현재 시간비교
             return claims.getBody()
                     .getExpiration()
@@ -90,14 +89,12 @@ public class JwtUtil {
 
     // 토큰에서 Email을 추출한다.
     public String getUid(String token) {
-        String[] real = token.split(" ");
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(real[1]).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
     // 토큰에서 ROLE(권한)만 추출한다.
     public String getRole(String token) {
-        String[] real = token.split(" ");
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(real[1]).getBody().get("role", String.class);
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("role", String.class);
     }
 
 }

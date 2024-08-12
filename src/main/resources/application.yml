@@ -2,9 +2,34 @@ server:
   port: 8080
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${GOOGLE_REDIRECT_URL}
+            authorization-grant-type: authorization_code
+            scope: email
+          naver:
+              client-id: ${NAVER_CLIENT_ID}
+              client-secret: ${NAVER_CLIENT_SECRET}
+              redirect-uri: ${NAVER_REDIRECT_URL}
+              authorization-grant-type: authorization_code
+              scope: name, email, profile_image
+              client-name: Naver
+
+        provider:
+            naver:
+              authorization_uri: ${NAVER_AUTHORIZATION_URI}
+              token_uri: ${NAVER_TOKEN_URI}
+              user-info-uri: ${NAVER_INFO_URI}
+              user_name_attribute: response
+
   datasource:
-    url: jdbc:mysql://localhost:3306/eyedb
-    username: root
+    url: jdbc:mysql://192.168.0.15:3306/eyedb
+    username: nh
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 

@@ -25,8 +25,6 @@ public class OAuth2Attribute {
         switch (provider) {
             case "google":
                 return ofGoogle(provider, attributeKey, attributes);
-            case "kakao":
-                return ofKakao(provider,"email", attributes);
             case "naver":
                 return ofNaver(provider, "id", attributes);
             default:
@@ -52,18 +50,6 @@ public class OAuth2Attribute {
      *   Kakao 로그인일 경우 사용하는 메서드, 필요한 사용자 정보가 kakaoAccount -> kakaoProfile 두번 감싸져 있어서,
      *   두번 get() 메서드를 이용해 사용자 정보를 담고있는 Map을 꺼내야한다.
      * */
-    private static OAuth2Attribute ofKakao(String provider, String attributeKey,
-                                           Map<String, Object> attributes) {
-        Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
-        Map<String, Object> kakaoProfile = (Map<String, Object>) kakaoAccount.get("profile");
-
-        return OAuth2Attribute.builder()
-                .email((String) kakaoAccount.get("email"))
-                .provider(provider)
-                .attributes(kakaoAccount)
-                .attributeKey(attributeKey)
-                .build();
-    }
 
     /*
      *  Naver 로그인일 경우 사용하는 메서드, 필요한 사용자 정보가 response Map에 감싸져 있어서,
