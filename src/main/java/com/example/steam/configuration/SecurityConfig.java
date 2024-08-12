@@ -35,7 +35,7 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/signin").permitAll()
                                 .anyRequest().authenticated()
                 )
-                //oauth2Login(oauth ->oauth.userInfoEndpoint(c -> c.userService(loginSuccessHandler)).successHandler())
+                .oauth2Login(oauth ->oauth.userInfoEndpoint(c -> c.userService(customOAuth2UserService)).successHandler(loginSuccessHandler))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
