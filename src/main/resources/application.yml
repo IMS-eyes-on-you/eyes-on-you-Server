@@ -24,7 +24,7 @@ spring:
             naver:
               authorization_uri: ${NAVER_AUTHORIZATION_URI}
               token_uri: ${NAVER_TOKEN_URI}
-              user-info-uri: ${NAVER_INFO_URI}
+              user-info-uri: ${NAVER_USER_INFO_URI}
               user_name_attribute: response
 
   datasource:

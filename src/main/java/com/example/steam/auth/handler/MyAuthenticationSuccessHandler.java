@@ -51,7 +51,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             log.info("jwtToken = {}", token.getAccessToken());
 
             // accessToken을 쿼리스트링에 담는 url을 만들어준다.
-            String targetUrl = UriComponentsBuilder.fromUriString("http://192.168.0.15:80/classroom")
+            String targetUrl = UriComponentsBuilder.fromUriString("http://192.168.0.15:3000/classroom")
                     .queryParam("accessToken", token.getAccessToken())
                     .queryParam("userId", email.split("@")[0])
                     .queryParam("oauth", true)
@@ -76,7 +76,7 @@ public class MyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucce
             GeneratedToken token = jwtUtil.generateToken(email, role);
             log.info("jwtToken = {}", token.getAccessToken());
             // 회원이 존재하지 않을경우, 강제 회원가입을 시킨다
-            String targetUrl = UriComponentsBuilder.fromUriString("http://192.168.0.15:80/classroom")
+            String targetUrl = UriComponentsBuilder.fromUriString("http://192.168.0.15:3000/classroom")
                     .queryParam("accessToken", token.getAccessToken())
                     .queryParam("userId", oathEmail.split("@")[0])
                     .queryParam("oauth", true)
