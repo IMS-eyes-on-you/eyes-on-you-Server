@@ -24,8 +24,8 @@ public class ChatRoomService {
     public void notifyExitClass() {
         if (emitter != null) {
             try {
-                emitter.send(SseEmitter.event().data("강의가 종료되었습니다."));
-                System.out.println("send");
+                emitter.send(SseEmitter.event().data("exit"));
+                System.out.println("강의종료");
             } catch (Exception e) {
                 this.emitter = null;
             }
