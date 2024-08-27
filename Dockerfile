@@ -9,7 +9,7 @@ RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
 COPY . .
 RUN gradle build -x test --parallel
 
-FROM openjdk:17.0-alpine
+FROM openjdk:17-alpine
 COPY --from=builder build/libs/*.jar app.jar
 
 EXPOSE 8080
