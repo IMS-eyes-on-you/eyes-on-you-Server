@@ -1,4 +1,4 @@
-FROM jdk:17-alpine AS builder
+FROM openjdk:17-alpine AS builder
 
 WORKDIR /home/gradle/src/
 
