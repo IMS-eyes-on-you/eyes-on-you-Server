@@ -3,11 +3,7 @@ FROM openjdk:17-alpine AS builder
 COPY build.gradle .
 COPY settings.gradle .
 COPY src src
-RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
-# or Maven
-# CMD ["./mvnw", "clean", "package"]
-COPY . .
-RUN gradle clean bootJar
+RUN ./gradlew bootJar
 
 FROM openjdk:17-alpine
 COPY --from=builder build/libs/*.jar app.jar
