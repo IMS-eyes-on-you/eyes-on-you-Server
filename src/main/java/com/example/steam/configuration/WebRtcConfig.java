@@ -1,6 +1,6 @@
 package com.example.steam.configuration;
 
-import com.example.steam.rabbitmq.handler.DocWebSocketHandler;
+import com.example.rabbitmq.handler.DocWebSocketHandler;
 import com.example.steam.steam.handler.KurentoHandler;
 import com.example.steam.steam.service.ChatRoomService;
 import com.example.steam.steam.service.KurentoManager;
