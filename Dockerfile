@@ -1,12 +1,16 @@
-FROM openjdk:17-alpine AS builder
+FROM jdk:17-alpine AS builder
 
-COPY build.gradle .
-COPY settings.gradle .
-COPY src src
-RUN ./gradlew bootJar
+WORKDIR /home/gradle/src/
+
+COPY --chown=gradle:gradle . /home/gradle/src
+USER root
+RUN chown -R gradle /home/gradle/src
+
+COPY . .
+RUN gradle clean bootJar
 
 FROM openjdk:17-alpine
-COPY --from=builder build/libs/*.jar app.jar
+COPY --from=builder home/gradle/src/build/libs/*.jar app.jar
 
 EXPOSE 8080
 USER nobody
