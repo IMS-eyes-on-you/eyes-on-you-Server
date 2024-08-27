@@ -20,7 +20,6 @@ class WebMvcConfig implements WebMvcConfigurer {
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS" , "PATCH")
                         .allowedHeaders("Authorization", "Content-Type")
                         .exposedHeaders("Custom-Header")
-                        .allowCredentials(true)
                         .maxAge(3600);
             }
         };

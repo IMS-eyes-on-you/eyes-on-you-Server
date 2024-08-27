@@ -18,11 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RtcChatService {
     private final KurentoClient kurento;
 
-    public KurentoRoomDto createChatRoom(String roomName, int maxUserCnt) {
+    public KurentoRoomDto createChatRoom(String roomName, int maxUserCnt, String name) {
 
         KurentoRoomDto room = new KurentoRoomDto();
         String roomId = UUID.randomUUID().toString();
-        room.setRoomInfo(roomId, roomName, ChatType.RTC, kurento);
+        room.setRoomInfo(roomId, roomName, ChatType.RTC, kurento, name);
 
         // 파이프라인 생성
         room.createPipeline();

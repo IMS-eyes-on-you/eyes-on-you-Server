@@ -26,7 +26,7 @@ public class KurentoManager {
 
     public void removeRoom(KurentoRoomDto room) {
         // rooms 에서 room 객체 삭제 => 이때 room 의 Name 을 가져와서 조회 후 삭제
-        this.rooms.remove(room.getRoomId());
+        this.rooms.remove(room.getRoomName());
 
 
         room.close();

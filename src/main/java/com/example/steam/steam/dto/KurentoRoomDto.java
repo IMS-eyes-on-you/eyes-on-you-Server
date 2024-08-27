@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.kurento.client.KurentoClient;
 import org.kurento.client.MediaPipeline;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
@@ -32,14 +33,21 @@ public class KurentoRoomDto{
     private int userCount = 0;
     private int maxUserCnt;
     private ChatType chatType;
-
+    private String hostName = "";
     private ConcurrentMap<String, KurentoUserSession> participants;
-    public void setRoomInfo(String roomId, String roomName, ChatType chatType, KurentoClient kurento){
+
+    public void setRoomInfo(String roomId, String roomName, ChatType chatType, KurentoClient kurento, String userId){
+        this.userId = userId;
         this.kurento = kurento;
         this.roomId = roomId;
         this.chatType = chatType;
         this.roomName = roomName;
         this.participants = new ConcurrentHashMap<>();
+    }
+
+
+    public void setHostName(String hostName){
+        this.hostName = hostName;
     }
 
     public void createPipeline(){
@@ -61,7 +69,7 @@ public class KurentoRoomDto{
     }
 
     public void leave(KurentoUserSession user) throws IOException {
-        log.debug("PARTICIPANT {}: Leaving room {}", user.getName(), this.roomId);
+        log.info("PARTICIPANT {}: Leaving room {}", user.getName(), this.roomId);
         this.removeParticipant(user.getName());
 
         user.close();
@@ -155,7 +163,7 @@ public class KurentoRoomDto{
             if(!participant.getName().equals(user.getName())){
                 JsonObject exisingUser  = new JsonObject();
                 exisingUser.addProperty("name", participant.getName());
-
+                exisingUser.addProperty("hostName", this.hostName);
                 participantsArray.add(exisingUser);
             }
         }
@@ -166,6 +174,20 @@ public class KurentoRoomDto{
 
         // user 에게 existingParticipantsMsg 전달
         user.sendMessage(existingParticipantsMsg);
+    }
+
+    public void sendHostIsOut(){
+        final JsonObject msg = new JsonObject();
+        msg.addProperty("id", "hostExit");
+        msg.addProperty("name", "name");
+        for (final KurentoUserSession participant : participants.values()) {
+            try {
+                // 다른 유저들에게 현재 유저가 나갔음을 알리는 jsonMsg 를 전달
+                participant.sendMessage(msg);
+            } catch (final IOException e) {
+                log.info("host exit error");
+            }
+        }
     }
 
 

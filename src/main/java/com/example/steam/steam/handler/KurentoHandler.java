@@ -1,6 +1,8 @@
 package com.example.steam.steam.handler;
 
+import com.example.steam.steam.dto.ChatRoomMap;
 import com.example.steam.steam.dto.KurentoRoomDto;
+import com.example.steam.steam.service.ChatRoomService;
 import com.example.steam.steam.service.KurentoManager;
 import com.example.steam.steam.service.KurentoRegistryService;
 import com.google.gson.Gson;
@@ -26,6 +28,8 @@ public class KurentoHandler extends TextWebSocketHandler {
     private final KurentoRegistryService registry;
 
     private final KurentoManager roomManger;
+
+    private final ChatRoomService chatRoomService;
 
 
     @Override
@@ -66,6 +70,9 @@ public class KurentoHandler extends TextWebSocketHandler {
                 break;
 
             case "leaveRoom": // 유저가 나간 경우
+                if(!jsonMessage.get("hostOut").getAsString().equals("true")){
+                    chatRoomService.notifyExitClass();
+                }
                 leaveRoom(user);
                 break;
 
@@ -101,6 +108,10 @@ public class KurentoHandler extends TextWebSocketHandler {
 
         final KurentoUserSession user = room.join(name, session, roomName);
 
+        if(isHost(room.getRoomName(), user.getName())){
+            room.setHostName(user.getName());
+        }
+
         registry.register(user);
     }
 
@@ -110,11 +121,26 @@ public class KurentoHandler extends TextWebSocketHandler {
 
         final KurentoRoomDto room = roomManger.getRoom(user.getRoomName());
 
-        if(!room.getParticipants().containsKey(user)) return;
+        if(room.getParticipants() == null) return;
+        if(!room.getParticipants().containsKey(user.getName())) return;
 
 
+        if(isHost(room.getRoomName(), user.getName())){
+            room.sendHostIsOut();
+        }
         room.leave(user);
         room.setUserCount(room.getUserCount() - 1);
+        if(room.getUserCount() == 0){
+            roomManger.removeRoom(room);
+        }
+    }
+
+
+    private boolean isHost(String roomName, String name){
+        if(ChatRoomMap.getInstance().getChatRooms().get(roomName).getUserId().equals(name)){
+            return true;
+        }
+        return false;
     }
 
     private void connectException(KurentoUserSession user, Exception e) throws IOException {
