@@ -13,11 +13,7 @@ RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
 # or Maven
 # CMD ["./mvnw", "clean", "package"]
 
-
-
-FROM openjdk:17-alpine
-
-COPY --from=builder build/libs/*.jar app.jar
+COPY build/libs/*.jar app.jar
 
 EXPOSE 8080
 
