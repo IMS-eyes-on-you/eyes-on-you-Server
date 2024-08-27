@@ -2,6 +2,7 @@ package com.example.steam.steam.handler;
 
 import com.example.steam.steam.dto.ChatRoomMap;
 import com.example.steam.steam.dto.KurentoRoomDto;
+import com.example.steam.steam.service.ChatRoomService;
 import com.example.steam.steam.service.KurentoManager;
 import com.example.steam.steam.service.KurentoRegistryService;
 import com.google.gson.Gson;
@@ -27,6 +28,8 @@ public class KurentoHandler extends TextWebSocketHandler {
     private final KurentoRegistryService registry;
 
     private final KurentoManager roomManger;
+
+    private final ChatRoomService chatRoomService;
 
 
     @Override
@@ -67,6 +70,9 @@ public class KurentoHandler extends TextWebSocketHandler {
                 break;
 
             case "leaveRoom": // 유저가 나간 경우
+                if(!jsonMessage.get("hostOut").getAsString().equals("true")){
+                    chatRoomService.notifyExitClass();
+                }
                 leaveRoom(user);
                 break;
 

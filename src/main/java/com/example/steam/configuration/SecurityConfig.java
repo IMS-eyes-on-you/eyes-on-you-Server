@@ -33,6 +33,7 @@ public class SecurityConfig {
                                 .requestMatchers("/signal").permitAll()
                                 .requestMatchers("/auth/signup").permitAll()
                                 .requestMatchers("/auth/signin").permitAll()
+                                .requestMatchers("/alert").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth ->oauth.userInfoEndpoint(c -> c.userService(customOAuth2UserService)).successHandler(loginSuccessHandler))

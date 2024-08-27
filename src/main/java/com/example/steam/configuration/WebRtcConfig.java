@@ -2,6 +2,7 @@ package com.example.steam.configuration;
 
 import com.example.steam.rabbitmq.handler.DocWebSocketHandler;
 import com.example.steam.steam.handler.KurentoHandler;
+import com.example.steam.steam.service.ChatRoomService;
 import com.example.steam.steam.service.KurentoManager;
 import com.example.steam.steam.service.KurentoRegistryService;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +21,16 @@ public class WebRtcConfig implements WebSocketConfigurer {
 
     private final KurentoManager roomManager;
 
+    private final ChatRoomService chatRoom;
+
     @Bean
     public KurentoHandler kurentoHandler(){
-        return new KurentoHandler(registry, roomManager);
+        return new KurentoHandler(registry, roomManager,chatRoom);
     }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new KurentoHandler(this.registry, roomManager), "/signal")
+        registry.addHandler(new KurentoHandler(this.registry, roomManager,chatRoom), "/signal")
                 .setAllowedOrigins("*");
 
         registry.addHandler(new DocWebSocketHandler(), "ws/files")
@@ -45,8 +48,8 @@ public class WebRtcConfig implements WebSocketConfigurer {
     @Bean
     public ServletServerContainerFactoryBean createWebSocketContainer(){
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-        container.setMaxTextMessageBufferSize(8192);
-        container.setMaxBinaryMessageBufferSize(8192);
+        container.setMaxTextMessageBufferSize(32768);
+        container.setMaxBinaryMessageBufferSize(32768);
         return container;
     }
 }

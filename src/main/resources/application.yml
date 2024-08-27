@@ -24,11 +24,11 @@ spring:
             naver:
               authorization_uri: ${NAVER_AUTHORIZATION_URI}
               token_uri: ${NAVER_TOKEN_URI}
-              user-info-uri: ${NAVER_INFO_URI}
+              user-info-uri: ${NAVER_USER_INFO_URI}
               user_name_attribute: response
 
   datasource:
-    url: jdbc:mysql://192.168.0.15:3306/eyedb
+    url: jdbc:mysql://192.168.0.30:3306/eyedb
     username: nh
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -41,7 +41,7 @@ spring:
       hibernate:
         format_sql: true
   rabbitmq:
-    host: 192.168.0.15
+    host: 192.168.0.30
     port: 5672
     username: guest
     password: guest
